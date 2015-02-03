@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using AppSettings = AutoUpdater.Properties.Settings;
 
@@ -10,6 +11,7 @@ namespace AutoUpdater
 		{
 			try
 			{
+				
 				UpdaterCore updater = new UpdaterCore();
 				Options options = new Options();
 
@@ -21,8 +23,13 @@ namespace AutoUpdater
 				Console.Title = "제독업무도 바빠! 자동 업데이트 프로그램";
 				var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
-				var verticalKCV = "KanColleViewer.exe";
-				var horizontalKCV = "KanColleViewer-Horizontal.exe";
+				foreach (Process process in Process.GetProcesses())
+				{
+					if (process.ProcessName.StartsWith("KanColleViewer") || process.ProcessName.StartsWith("KanColleViewer-Horizontal"))
+					{
+						process.Kill();
+					}
+				}
 				if (AppSettings.Default.IsFirstUpdate)
 				{
 					Console.WriteLine("주로 사용하는 제독업무도 바빠!의 버전을 설정해주시기 바랍니다.");
@@ -39,12 +46,15 @@ namespace AutoUpdater
 					AppSettings.Default.Save();
 				}
 
-				if (File.Exists(verticalKCV))
+				var verticalKCV = "KanColleViewer.exe";
+				var horizontalKCV = "KanColleViewer-Horizontal.exe";
+
+				if (File.Exists(Path.Combine(MainFolder,verticalKCV)))
 				{
 					updater.Updater(MainFolder, verticalKCV);
 					return;
 				}
-				else if (File.Exists(horizontalKCV))
+				else if (File.Exists(Path.Combine(MainFolder,horizontalKCV)))
 				{
 					updater.Updater(MainFolder, horizontalKCV);
 					return;
