@@ -51,6 +51,7 @@ namespace AutoUpdater
 				}
 				else//파일이 없는경우
 				{
+					Console.WriteLine();
 					Console.WriteLine("제독업무도 바빠!의 실행파일이 없습니다!");
 					Console.WriteLine("(KanColleViewer.exe OR KanColleViewer-Horizontal.exe)");
 					Console.Write("최신버전을 새로 다운로드/설치하시겠습니까?(Y/N): ");

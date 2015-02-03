@@ -26,7 +26,8 @@ namespace AutoUpdater
 			{
 				string name = Path.GetFileName(file);
 				string dest = Path.Combine(destFolder, name);
-				File.Copy(file, dest,true);
+				if(!file.Contains("AutoUpdater"))
+					File.Copy(file, dest,true);
 			}
 
 			// foreach 안에서 재귀 함수를 통해서 폴더 복사 및 파일 복사 진행 완료
