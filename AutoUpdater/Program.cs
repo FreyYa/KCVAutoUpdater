@@ -23,13 +23,10 @@ namespace AutoUpdater
 				Console.Title = "제독업무도 바빠! 자동 업데이트 프로그램";
 				var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
-				foreach (Process process in Process.GetProcesses())
-				{
-					if (process.ProcessName.StartsWith("KanColleViewer") || process.ProcessName.StartsWith("KanColleViewer-Horizontal"))
-					{
-						process.Kill();
-					}
-				}
+				KCVKiller.KCVKiller shutKCV = new KCVKiller.KCVKiller();
+
+				shutKCV.KCV();
+
 				if (AppSettings.Default.IsFirstUpdate)
 				{
 					Console.WriteLine("주로 사용하는 제독업무도 바빠!의 버전을 설정해주시기 바랍니다.");
