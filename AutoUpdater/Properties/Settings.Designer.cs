@@ -31,18 +31,5 @@ namespace AutoUpdater.Properties {
                 return ((string)(this["KCVUpdateUrl"]));
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/FreyYa/KanColleViewer/releases/download/v3.4.0r140/KanColleVie" +
-            "wer-KR.3.4.r140.zip")]
-        public string NowVersion {
-            get {
-                return ((string)(this["NowVersion"]));
-            }
-            set {
-                this["NowVersion"] = value;
-            }
-        }
     }
 }

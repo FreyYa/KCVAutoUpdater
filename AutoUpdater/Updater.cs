@@ -66,8 +66,24 @@ namespace AutoUpdater
 					if (!Directory.Exists(Path.Combine(MainFolder, "UpdateBin"))) Directory.CreateDirectory(Path.Combine(MainFolder, "UpdateBin"));
 					if (!Directory.Exists(Path.Combine(MainFolder, "UpdateBin", "tmp"))) Directory.CreateDirectory(Path.Combine(MainFolder, "UpdateBin", "tmp"));
 
+					if (NowVersion == "Forced Upgrades")
+					{
+						Client.DownloadFile(BaseTranslationURL, Path.Combine(MainFolder, "UpdateBin", "tmp", "kcv.zip"));
 
-					if (IsOnlineVersionGreater(NowVersion))
+						try
+						{
+							if (File.Exists(Path.Combine(MainFolder, "UpdateBin", "kcv.zip")))
+								File.Delete(Path.Combine(MainFolder, "UpdateBin", "kcv.zip"));
+							File.Move(Path.Combine(MainFolder, "UpdateBin", "tmp", "kcv.zip"), Path.Combine(MainFolder, "UpdateBin", "kcv.zip"));
+							ReturnValue = 1;
+
+						}
+						catch
+						{
+							ReturnValue = -1;
+						}
+					}
+					else if (IsOnlineVersionGreater(NowVersion))
 					{
 						Client.DownloadFile(BaseTranslationURL, Path.Combine(MainFolder, "UpdateBin", "tmp", "kcv.zip"));
 

@@ -5,8 +5,5 @@
     <Setting Name="KCVUpdateUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://raw.github.com/FreyYa/KCVKrTranslation/master/resources/Version.xml</Value>
     </Setting>
-    <Setting Name="NowVersion" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://github.com/FreyYa/KanColleViewer/releases/download/v3.4.0r140/KanColleViewer-KR.3.4.r140.zip</Value>
-    </Setting>
   </Settings>
 </SettingsFile>
