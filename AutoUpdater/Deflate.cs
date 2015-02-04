@@ -26,9 +26,9 @@ namespace AutoUpdater
 			{
 				string name = Path.GetFileName(file);
 				string dest = Path.Combine(destFolder, name);
-				if (!file.Contains("AutoUpdater"))
-					if(!file.Contains("CommandLine"))
-						if (!file.Contains("KCVKiller"))
+				if (!file.Contains("AutoUpdater.exe"))
+					if(!file.Contains("CommandLine.dll"))
+						if (!file.Contains("KCVKiller.dll"))
 							File.Copy(file, dest, true);
 			}
 

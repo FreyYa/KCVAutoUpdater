@@ -75,7 +75,6 @@ namespace AutoUpdater
 				Console.WriteLine("에러발생 : ");
 				Console.WriteLine(e.Message);
 			}
-			System.Console.ReadKey();
 		}
 	}
 }
