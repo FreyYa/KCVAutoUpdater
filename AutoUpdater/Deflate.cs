@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 
 namespace AutoUpdater
@@ -41,6 +42,5 @@ namespace AutoUpdater
 			}
 			Directory.Delete(sourceFolder, true);
 		}
-
 	}
 }

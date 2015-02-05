@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using AppSettings = AutoUpdater.Properties.Settings;
 
 namespace AutoUpdater
@@ -9,13 +10,13 @@ namespace AutoUpdater
 	{
 		Updater AppUpdater = new Updater();
 		Deflate Deflate = new Deflate();
-		public void Updater(string MainFolder, string _str_File = "NoFile")
+		public void Updater(bool IsSelfUpdate,string MainFolder, string _str_File = "NoFile")
 		{
 			Uri VerUri = new Uri(AppSettings.Default.KCVUpdateUrl);
 			AppUpdater.LoadVersion(VerUri.AbsoluteUri);
-			Uri FileUri = new Uri(AppUpdater.GetOnlineVersion(true));
+			Uri FileUri = new Uri(AppUpdater.GetOnlineVersion(IsSelfUpdate, true));
 			#region 칸코레 뷰어가 없는경우
-			if (_str_File == "NoFile")
+			if (_str_File == "NoFile" && !IsSelfUpdate)
 			{
 				bool Checkbool = true;
 
@@ -79,19 +80,22 @@ namespace AutoUpdater
 				FileVersionInfo NowVersion = FileVersionInfo.GetVersionInfo(Path.Combine(MainFolder, _str_File));
 				AppUpdater.LoadVersion(VerUri.AbsoluteUri);
 				var Checkbool = AppUpdater.IsOnlineVersionGreater(NowVersion.FileVersion);
-				var OnlineVersion = AppUpdater.GetOnlineVersion(false);
+				var OnlineVersion = AppUpdater.GetOnlineVersion(IsSelfUpdate, false);
 
-
-				//Console.WriteLine("업데이트 버전파일 경로: ");
-				//Console.WriteLine(VerUri.ToString());
-				//Console.WriteLine();
-
-				Console.WriteLine("현재 제독업무도 바빠! 버전: " + NowVersion.FileVersion);
-				Console.WriteLine();
-				Console.WriteLine("최신 제독업무도 바빠! 버전: " + OnlineVersion.ToString());
-				Console.WriteLine();
-				//Console.WriteLine("온라인버전이 더 높은가?: " + Checkbool.ToString());
-				//Console.WriteLine();
+				if (!IsSelfUpdate)
+				{
+					Console.WriteLine("현재 제독업무도 바빠! 버전: " + NowVersion.FileVersion);
+					Console.WriteLine();
+					Console.WriteLine("최신 제독업무도 바빠! 버전: " + OnlineVersion.ToString());
+					Console.WriteLine();
+				}
+				else
+				{
+					Console.WriteLine("현재 업데이트 프로그램 버전: " + NowVersion.FileVersion);
+					Console.WriteLine();
+					Console.WriteLine("최신 업데이트 프로그램 버전: " + OnlineVersion.ToString());
+					Console.WriteLine();
+				}
 
 				int statusint = 0;
 				if (Checkbool)
@@ -150,6 +154,22 @@ namespace AutoUpdater
 
 			else Console.WriteLine("업데이트 에러!");
 			//Console.WriteLine("아무키나 눌러서 업데이터를 종료해주세요");
+		}
+		public string UpperFolder(string MainFolder)
+		{
+			string[] temp = MainFolder.Split('\\');
+			int i = temp.Length;
+			
+			//if (temp[i - 1] == "tmp") temp[i - 1] = string.Empty;
+			string str=string.Empty;
+			for (int j = 0; j < temp.Length-1; j++)
+			{
+				if (j == 0) str=temp[j]+"\\";
+				else
+					str = Path.Combine(str, temp[j]);
+			}
+			
+			return str;
 		}
 	}
 }

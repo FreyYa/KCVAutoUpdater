@@ -9,19 +9,27 @@ namespace AutoUpdater
 	{
 		static void Main(string[] args)
 		{
+			UpdaterCore updatercore = new UpdaterCore();
+			Options options = new Options();
+
+			var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+			var up = updatercore.UpperFolder(MainFolder);
+
+			if (File.Exists(Path.Combine(up, "AutoUpdater.exe")))
+			{
+				Console.WriteLine("상위폴더에 AutoUpdater.exe가 감지되었습니다. 자가업데이트를 시행합니다.");
+				FileVersionInfo NowVersion = FileVersionInfo.GetVersionInfo(Path.Combine(up, "AutoUpdater.exe"));
+				
+			}
 			try
 			{
-				
-				UpdaterCore updater = new UpdaterCore();
-				Options options = new Options();
-
 				if (CommandLine.Parser.Default.ParseArguments(args, options))
 				{
 					options.ApplyOptions(options);
 				}
 
 				Console.Title = "제독업무도 바빠! 자동 업데이트 프로그램";
-				var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
 
 				KCVKiller.KCVKiller shutKCV = new KCVKiller.KCVKiller();
 
@@ -46,14 +54,14 @@ namespace AutoUpdater
 				var verticalKCV = "KanColleViewer.exe";
 				var horizontalKCV = "KanColleViewer-Horizontal.exe";
 
-				if (File.Exists(Path.Combine(MainFolder,verticalKCV)))
+				if (File.Exists(Path.Combine(MainFolder, verticalKCV)))
 				{
-					updater.Updater(MainFolder, verticalKCV);
+					updatercore.Updater(false,MainFolder, verticalKCV);
 					return;
 				}
-				else if (File.Exists(Path.Combine(MainFolder,horizontalKCV)))
+				else if (File.Exists(Path.Combine(MainFolder, horizontalKCV)))
 				{
-					updater.Updater(MainFolder, horizontalKCV);
+					updatercore.Updater(false,MainFolder, horizontalKCV);
 					return;
 				}
 				else//파일이 없는경우
@@ -64,7 +72,7 @@ namespace AutoUpdater
 					Console.Write("최신버전을 새로 다운로드/설치하시겠습니까?(Y/N): ");
 					var t = System.Console.ReadLine();
 					if (t.Length > 0)
-						if (t.Length > 0 && t[0].ToString() == "y" || t[0].ToString() == "Y" || t[0].ToString() == "ㅛ") updater.Updater(MainFolder);
+						if (t.Length > 0 && t[0].ToString() == "y" || t[0].ToString() == "Y" || t[0].ToString() == "ㅛ") updatercore.Updater(false,MainFolder);
 					return;
 
 				}
