@@ -12,6 +12,8 @@ namespace AutoUpdater
 			KCVKillers shut = new KCVKillers();
 			bool Existargs = false;
 			var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+			if (File.Exists(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd")))
+				File.Delete(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd"));
 			if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
 				Directory.Delete(Path.Combine(MainFolder, "UpdateBin"), true);
 			try
