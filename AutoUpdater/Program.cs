@@ -1,9 +1,7 @@
-﻿using System;
+﻿using KCVKiller;
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
-using AppSettings = AutoUpdater.Properties.Settings;
-using KCVKiller;
 
 namespace AutoUpdater
 {

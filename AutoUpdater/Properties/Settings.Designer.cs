@@ -31,29 +31,5 @@ namespace AutoUpdater.Properties {
                 return ((string)(this["KCVUpdateUrl"]));
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IsHorizontal {
-            get {
-                return ((bool)(this["IsHorizontal"]));
-            }
-            set {
-                this["IsHorizontal"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsFirstUpdate {
-            get {
-                return ((bool)(this["IsFirstUpdate"]));
-            }
-            set {
-                this["IsFirstUpdate"] = value;
-            }
-        }
     }
 }

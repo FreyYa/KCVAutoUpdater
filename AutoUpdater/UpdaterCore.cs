@@ -101,6 +101,7 @@ namespace AutoUpdater
 				{
 					if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
 					{
+
 						Deflate.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
 						Console.WriteLine("붙여넣기 완료");
 						Console.WriteLine();
@@ -170,6 +171,7 @@ namespace AutoUpdater
 								Console.WriteLine("붙여넣기 완료");
 								Console.WriteLine("");
 								Console.WriteLine("업데이트를 종료합니다.");
+								
 								if (File.Exists(Path.Combine(MainFolder, _str_File)))
 								{
 									Process MyProcess = new Process();
@@ -216,7 +218,6 @@ namespace AutoUpdater
 			string[] temp = MainFolder.Split('\\');
 			int i = temp.Length;
 
-			//if (temp[i - 1] == "tmp") temp[i - 1] = string.Empty;
 			string str = string.Empty;
 			for (int j = 0; j < temp.Length - 1; j++)
 			{

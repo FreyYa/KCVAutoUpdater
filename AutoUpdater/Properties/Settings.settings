@@ -5,11 +5,5 @@
     <Setting Name="KCVUpdateUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://raw.github.com/FreyYa/KCVKrTranslation/master/resources/Version.xml</Value>
     </Setting>
-    <Setting Name="IsHorizontal" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="IsFirstUpdate" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
   </Settings>
 </SettingsFile>
