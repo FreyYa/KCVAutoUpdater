@@ -27,7 +27,7 @@ namespace AutoUpdater
 
 			return true;
 		}
-		public string GetOnlineVersion(bool bGetURL = false)
+		public string GetOnlineVersion(bool IsSelfUpdate, bool bGetURL = false)
 		{
 			if (VersionXML == null)
 				return "";
@@ -35,11 +35,18 @@ namespace AutoUpdater
 			IEnumerable<XElement> Versions = VersionXML.Root.Descendants("Item");
 
 			string ElementName = !bGetURL ? "Version" : "URL";
-
-			var AppVersion=Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value;
-			return AppVersion;
+			if (!IsSelfUpdate)
+			{
+				var AppVersion = Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value;
+				return AppVersion;
+			}
+			else
+			{
+				var AppVersion = Versions.Where(x => x.Element("Name").Value.Equals("Updater")).FirstOrDefault().Element(ElementName).Value;
+				return AppVersion;
+			}
 		}
-		public bool IsOnlineVersionGreater(string LocalVersionString)
+		public bool IsOnlineVersionGreater(bool IsSelfUpdate, string LocalVersionString)
 		{
 			if (VersionXML == null)
 				return true;
@@ -49,11 +56,13 @@ namespace AutoUpdater
 			if (LocalVersionString == "알 수 없음") return false;
 			else if (LocalVersionString == "없음") return false;
 			Version LocalVersion = new Version(LocalVersionString);
-			
 
-			return LocalVersion.CompareTo(new Version(Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value)) < 0;
+			if (!IsSelfUpdate)
+				return LocalVersion.CompareTo(new Version(Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value)) < 0;
+			else
+				return LocalVersion.CompareTo(new Version(Versions.Where(x => x.Element("Name").Value.Equals("Updater")).FirstOrDefault().Element(ElementName).Value)) < 0;
 		}
-		public int UpdateFile(string BaseTranslationURL,string NowVersion)
+		public int UpdateFile(bool IsSelfUpdate, string BaseTranslationURL, string NowVersion)
 		{
 			var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
@@ -65,8 +74,21 @@ namespace AutoUpdater
 				{
 					if (!Directory.Exists(Path.Combine(MainFolder, "UpdateBin"))) Directory.CreateDirectory(Path.Combine(MainFolder, "UpdateBin"));
 					if (!Directory.Exists(Path.Combine(MainFolder, "UpdateBin", "tmp"))) Directory.CreateDirectory(Path.Combine(MainFolder, "UpdateBin", "tmp"));
+					if (IsSelfUpdate && !Directory.Exists(Path.Combine(MainFolder, "tmp"))) Directory.CreateDirectory(Path.Combine(MainFolder, "tmp"));
+					if (IsSelfUpdate)
+					{
+						try
+						{
+							Client.DownloadFile(BaseTranslationURL, Path.Combine(MainFolder, "tmp", "updater.zip"));
+							ReturnValue = 1;
+						}
+						catch
+						{
+							ReturnValue = -1;
+						}
 
-					if (NowVersion == "Forced Upgrades")
+					}
+					else if (NowVersion == "Forced Upgrades")
 					{
 						Client.DownloadFile(BaseTranslationURL, Path.Combine(MainFolder, "UpdateBin", "tmp", "kcv.zip"));
 
@@ -83,7 +105,7 @@ namespace AutoUpdater
 							ReturnValue = -1;
 						}
 					}
-					else if (IsOnlineVersionGreater(NowVersion))
+					else if (IsOnlineVersionGreater(IsSelfUpdate, NowVersion))
 					{
 						Client.DownloadFile(BaseTranslationURL, Path.Combine(MainFolder, "UpdateBin", "tmp", "kcv.zip"));
 

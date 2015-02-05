@@ -14,7 +14,7 @@ namespace AutoUpdater
 		/// </summary>
 		/// <param name="sourceFolder">복사할 폴더가 있는 경로</param>
 		/// <param name="destFolder">붙여넣기할 경로</param>
-		public void CopyFolder(string sourceFolder, string destFolder)
+		public void CopyFolder(string sourceFolder, string destFolder, bool IsSelfUpdate = false)
 		{
 			if (!Directory.Exists(destFolder))
 				Directory.CreateDirectory(destFolder);
@@ -26,10 +26,18 @@ namespace AutoUpdater
 			{
 				string name = Path.GetFileName(file);
 				string dest = Path.Combine(destFolder, name);
-				if (!file.Contains("AutoUpdater.exe"))
-					if(!file.Contains("CommandLine.dll"))
-						if (!file.Contains("KCVKiller.dll"))
-							File.Copy(file, dest, true);
+				if (!IsSelfUpdate)
+				{
+					if (!file.Contains("AutoUpdater.exe"))
+						if (!file.Contains("CommandLine.dll"))
+							if (!file.Contains("KCVKiller.dll"))
+								File.Copy(file, dest, true);
+				}
+				else
+				{
+					File.Copy(file, dest, true);
+				}
+
 			}
 
 			// foreach 안에서 재귀 함수를 통해서 폴더 복사 및 파일 복사 진행 완료
@@ -37,9 +45,9 @@ namespace AutoUpdater
 			{
 				string name = Path.GetFileName(folder);
 				string dest = Path.Combine(destFolder, name);
-				CopyFolder(folder, dest);
+				CopyFolder(folder, dest, IsSelfUpdate);
 			}
-			Directory.Delete(sourceFolder, true);
+			if (!IsSelfUpdate) Directory.Delete(sourceFolder, true);
 		}
 
 	}

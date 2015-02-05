@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace KCVKiller
 {
-	public class KCVKiller
+	public class KCVKillers
 	{
-		public void KCV(){
-			var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-
+		public void KCV()
+		{
 			foreach (Process process in Process.GetProcesses())
 			{
 				if (process.ProcessName.StartsWith("KanColleViewer") || process.ProcessName.StartsWith("KanColleViewer-Horizontal"))
