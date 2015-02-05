@@ -27,7 +27,7 @@ namespace AutoUpdater
 
 			return true;
 		}
-		public string GetOnlineVersion(bool IsSelfUpdate,bool bGetURL = false)
+		public string GetOnlineVersion(bool bGetURL = false)
 		{
 			if (VersionXML == null)
 				return "";
@@ -35,17 +35,9 @@ namespace AutoUpdater
 			IEnumerable<XElement> Versions = VersionXML.Root.Descendants("Item");
 
 			string ElementName = !bGetURL ? "Version" : "URL";
-			if (!IsSelfUpdate)
-			{
-				var AppVersion = Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value;
-				return AppVersion;
-			}
-			else
-			{
-				var AppVersion = Versions.Where(x => x.Element("Name").Value.Equals("Updater")).FirstOrDefault().Element(ElementName).Value;
-				return AppVersion;
-			}
-			
+
+			var AppVersion=Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value;
+			return AppVersion;
 		}
 		public bool IsOnlineVersionGreater(string LocalVersionString)
 		{
@@ -61,7 +53,7 @@ namespace AutoUpdater
 
 			return LocalVersion.CompareTo(new Version(Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value)) < 0;
 		}
-		public int UpdateFile(bool IsSelfUpdate, string BaseTranslationURL, string NowVersion)
+		public int UpdateFile(string BaseTranslationURL,string NowVersion)
 		{
 			var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
@@ -121,5 +113,7 @@ namespace AutoUpdater
 				return ReturnValue;
 			}
 		}
+
+
 	}
 }
