@@ -33,7 +33,6 @@ namespace AutoUpdater
 						}
 					}
 				UpdaterCore updatercore = new UpdaterCore();
-				//Options options = new Options();
 
 
 				var up = updatercore.UpperFolder(MainFolder);
@@ -49,7 +48,6 @@ namespace AutoUpdater
 					MyProcess.StartInfo.Arguments = "renew";
 					MyProcess.Start();
 					MyProcess.Refresh();
-					//Process.Start(Path.Combine(up, "AutoUpdater.exe"), "renew");
 
 				}
 				else
@@ -60,27 +58,27 @@ namespace AutoUpdater
 
 					shut.KCV();
 
-					var verticalKCV = "KanColleViewer.exe";
-					var horizontalKCV = "KanColleViewer-Horizontal.exe";
+					//var verticalKCV = "KanColleViewer.exe";
+					//var horizontalKCV = "KanColleViewer-Horizontal.exe";
+					string appname = string.Empty;
+
+					if (shut.processName == string.Empty) appname = "KanColleViewer.exe";
+					else appname = shut.processName+".exe";
 
 					if (!Existargs)
 					{
 						updatercore.Updater(true, MainFolder, "AutoUpdater.exe");
 					}
 					if (updatercore.UpdateUpdater) return;
-					if (File.Exists(Path.Combine(MainFolder, verticalKCV)))
+					if (File.Exists(Path.Combine(MainFolder, appname)))
 					{
-						updatercore.Updater(false, MainFolder, verticalKCV);
-					}
-					else if (File.Exists(Path.Combine(MainFolder, horizontalKCV)))
-					{
-						updatercore.Updater(false, MainFolder, horizontalKCV);
+						updatercore.Updater(false, MainFolder, appname);
 					}
 					else//파일이 없는경우
 					{
 						Console.WriteLine();
 						Console.WriteLine("제독업무도 바빠!의 실행파일이 없습니다!");
-						Console.WriteLine("(KanColleViewer.exe OR KanColleViewer-Horizontal.exe)");
+						Console.WriteLine();
 						Console.Write("최신버전을 새로 다운로드/설치하시겠습니까?(Y/N): ");
 						var t = System.Console.ReadLine();
 						if (t.Length > 0)

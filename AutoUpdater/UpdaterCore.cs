@@ -45,7 +45,7 @@ namespace AutoUpdater
 						Console.WriteLine("");
 						if (File.Exists(Path.Combine(MainFolder, "tmp", "updater.zip")))
 							File.Delete(Path.Combine(MainFolder, "tmp", "updater.zip"));
-						
+
 						Process MyProcess = new Process();
 
 						this.UpdateUpdater = true;
@@ -70,7 +70,7 @@ namespace AutoUpdater
 
 				int statusint = 0;
 				if (Checkbool)
-					statusint = AppUpdater.UpdateFile(IsSelfUpdate,FileUri.ToString(), "Forced Upgrades");
+					statusint = AppUpdater.UpdateFile(IsSelfUpdate, FileUri.ToString(), "Forced Upgrades");
 				string status;
 				if (statusint == 1) status = "성공";
 				else if (statusint == -1) status = "실패";
@@ -103,12 +103,16 @@ namespace AutoUpdater
 					{
 						Deflate.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
 						Console.WriteLine("붙여넣기 완료");
-						Console.WriteLine("");
+						Console.WriteLine();
+
 						string Applocate = string.Empty;
-						if (AppSettings.Default.IsHorizontal)
+
+						Console.WriteLine();
+						Console.Write("가로버전으로 실행하시겠습니까??(Y/N): ");
+						var t = System.Console.ReadLine();
+						if (t.Length > 0 && t[0].ToString() == "y" || t[0].ToString() == "Y" || t[0].ToString() == "ㅛ")
 							Applocate = "KanColleViewer-Horizontal.exe";
-						else
-							Applocate = "KanColleViewer.exe";
+						else Applocate = "KanColleViewer.exe";
 
 						Process MyProcess = new Process();
 						MyProcess.StartInfo.FileName = Applocate;
@@ -141,7 +145,7 @@ namespace AutoUpdater
 
 				int statusint = 0;
 				if (Checkbool)
-					statusint = AppUpdater.UpdateFile(IsSelfUpdate,FileUri.ToString(), NowVersion.FileVersion);
+					statusint = AppUpdater.UpdateFile(IsSelfUpdate, FileUri.ToString(), NowVersion.FileVersion);
 				string status;
 				if (statusint == 1) status = "성공";
 				else if (statusint == -1) status = "실패";
@@ -165,12 +169,15 @@ namespace AutoUpdater
 								Deflate.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
 								Console.WriteLine("붙여넣기 완료");
 								Console.WriteLine("");
-
-								Process MyProcess = new Process();
-								MyProcess.StartInfo.FileName = _str_File;
-								MyProcess.StartInfo.WorkingDirectory = MainFolder;
-								MyProcess.Start();
-								MyProcess.Refresh();
+								Console.WriteLine("업데이트를 종료합니다.");
+								if (File.Exists(Path.Combine(MainFolder, _str_File)))
+								{
+									Process MyProcess = new Process();
+									MyProcess.StartInfo.FileName = _str_File;
+									MyProcess.StartInfo.WorkingDirectory = MainFolder;
+									MyProcess.Start();
+									MyProcess.Refresh();
+								}
 
 							}
 						}
