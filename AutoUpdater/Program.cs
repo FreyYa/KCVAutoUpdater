@@ -9,27 +9,29 @@ namespace AutoUpdater
 	{
 		static void Main(string[] args)
 		{
+			ErrorReport error = new ErrorReport();
+
 			KCVKillers shut = new KCVKillers();
 			bool Existargs = false;
 			var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-			if (File.Exists(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd")))
-				File.Delete(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd"));
-			if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
-				Directory.Delete(Path.Combine(MainFolder, "UpdateBin"), true);
+			
+			
+			
 			try
 			{
+				if (File.Exists(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd")))
+					File.Delete(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd"));
+
+				if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
+					Directory.Delete(Path.Combine(MainFolder, "UpdateBin"), true);
 				if (args != null)
 					if (args.Length > 0)
 					{
 						if (args[0] == "renew")
 						{
-							try
-							{
-								if (Directory.Exists(Path.Combine(MainFolder, "tmp")))
+							if (Directory.Exists(Path.Combine(MainFolder, "tmp")))
 									Directory.Delete(Path.Combine(MainFolder, "tmp"), true);
-								Existargs = true;
-							}
-							catch { }
+							Existargs = true;
 						}
 					}
 				UpdaterCore updatercore = new UpdaterCore();
@@ -58,8 +60,6 @@ namespace AutoUpdater
 
 					shut.KCV();
 
-					//var verticalKCV = "KanColleViewer.exe";
-					//var horizontalKCV = "KanColleViewer-Horizontal.exe";
 					string appname = string.Empty;
 
 					if (shut.processName == string.Empty) appname = "KanColleViewer.exe";
@@ -90,8 +90,10 @@ namespace AutoUpdater
 			}
 			catch (Exception e)
 			{
+				error.catcherror(e, MainFolder);
 				Console.WriteLine("에러발생 : ");
 				Console.WriteLine(e.Message);
+
 			}
 		}
 	}

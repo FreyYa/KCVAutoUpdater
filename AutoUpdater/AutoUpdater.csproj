@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorReport.cs" />
     <Compile Include="UpdaterCore.cs" />
     <Compile Include="Deflate.cs" />
     <Compile Include="Program.cs" />
