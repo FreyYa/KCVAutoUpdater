@@ -12,8 +12,11 @@ namespace KCVKiller
 			{
 				if (process.ProcessName.StartsWith("KanColleViewer") || process.ProcessName.StartsWith("KanColleViewer-Horizontal"))
 				{
-					processName = process.ProcessName;
-					process.Kill();
+					if (!process.ProcessName.Contains("vshost"))
+					{
+						processName = process.ProcessName;
+						process.Kill();
+					}
 				}
 			}
 		}

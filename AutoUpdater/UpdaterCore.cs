@@ -116,8 +116,10 @@ namespace AutoUpdater
 						else Applocate = "KanColleViewer.exe";
 
 						Process MyProcess = new Process();
-						MyProcess.StartInfo.FileName = Applocate;
+						MyProcess.StartInfo.FileName = "Updatelog.txt";
 						MyProcess.StartInfo.WorkingDirectory = MainFolder;
+						if (File.Exists(Path.Combine(MainFolder, "Updatelog.txt"))) MyProcess.Start();
+						MyProcess.StartInfo.FileName = Applocate;
 						MyProcess.Start();
 						MyProcess.Refresh();
 					}
@@ -171,12 +173,14 @@ namespace AutoUpdater
 								Console.WriteLine("붙여넣기 완료");
 								Console.WriteLine("");
 								Console.WriteLine("업데이트를 종료합니다.");
-								
+
 								if (File.Exists(Path.Combine(MainFolder, _str_File)))
 								{
 									Process MyProcess = new Process();
-									MyProcess.StartInfo.FileName = _str_File;
+									MyProcess.StartInfo.FileName = "Updatelog.txt";
 									MyProcess.StartInfo.WorkingDirectory = MainFolder;
+									if (File.Exists(Path.Combine(MainFolder, "Updatelog.txt"))) MyProcess.Start();
+									MyProcess.StartInfo.FileName = _str_File;
 									MyProcess.Start();
 									MyProcess.Refresh();
 								}
@@ -195,8 +199,10 @@ namespace AutoUpdater
 						if (File.Exists(Path.Combine(MainFolder, _str_File)))
 						{
 							Process MyProcess = new Process();
-							MyProcess.StartInfo.FileName = _str_File;
+							MyProcess.StartInfo.FileName = "Updatelog.txt";
 							MyProcess.StartInfo.WorkingDirectory = MainFolder;
+							if (File.Exists(Path.Combine(MainFolder, "Updatelog.txt"))) MyProcess.Start();
+							MyProcess.StartInfo.FileName = _str_File;
 							MyProcess.Start();
 							MyProcess.Refresh();
 						}
