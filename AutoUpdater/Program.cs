@@ -14,9 +14,9 @@ namespace AutoUpdater
 			KCVKillers shut = new KCVKillers();
 			bool Existargs = false;
 			var MainFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-			
-			
-			
+
+
+
 			try
 			{
 				if (File.Exists(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd")))
@@ -30,7 +30,7 @@ namespace AutoUpdater
 						if (args[0] == "renew")
 						{
 							if (Directory.Exists(Path.Combine(MainFolder, "tmp")))
-									Directory.Delete(Path.Combine(MainFolder, "tmp"), true);
+								Directory.Delete(Path.Combine(MainFolder, "tmp"), true);
 							Existargs = true;
 						}
 					}
@@ -63,7 +63,7 @@ namespace AutoUpdater
 					string appname = string.Empty;
 
 					if (shut.processName == string.Empty) appname = "KanColleViewer.exe";
-					else appname = shut.processName+".exe";
+					else appname = shut.processName + ".exe";
 
 					if (!Existargs)
 					{
