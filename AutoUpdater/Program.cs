@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace AutoUpdater
 {
@@ -56,9 +57,11 @@ namespace AutoUpdater
 				{
 					Console.Title = "제독업무도 바빠! 자동 업데이트 프로그램";
 
-
-
-					shut.KCV();
+					while (!shut.IsKCVDead)
+					{
+						Thread.Sleep(2000);
+						shut.KCV();
+					}
 
 					string appname = string.Empty;
 
