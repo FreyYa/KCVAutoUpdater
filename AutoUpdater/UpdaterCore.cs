@@ -106,14 +106,9 @@ namespace AutoUpdater
 						Console.WriteLine("붙여넣기 완료");
 						Console.WriteLine();
 
-						string Applocate = string.Empty;
+						string Applocate = "KanColleViewer.exe";
 
 						Console.WriteLine();
-						Console.Write("가로버전으로 실행하시겠습니까??(Y/N): ");
-						var t = System.Console.ReadLine();
-						if (t.Length > 0 && t[0].ToString() == "y" || t[0].ToString() == "Y" || t[0].ToString() == "ㅛ")
-							Applocate = "KanColleViewer-Horizontal.exe";
-						else Applocate = "KanColleViewer.exe";
 
 						Process MyProcess = new Process();
 						MyProcess.StartInfo.FileName = "Updatelog.txt";

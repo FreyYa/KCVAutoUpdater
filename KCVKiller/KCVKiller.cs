@@ -14,7 +14,7 @@ namespace KCVKiller
 			Console.WriteLine("제독업무도 바빠!의 종료를 확인중입니다...");
 			foreach (Process process in Process.GetProcesses())
 			{
-				if (process.ProcessName.StartsWith("KanColleViewer") || process.ProcessName.StartsWith("KanColleViewer-Horizontal"))
+				if (process.ProcessName.StartsWith("KanColleViewer"))
 				{
 					if (!process.ProcessName.Contains("vshost"))
 					{
