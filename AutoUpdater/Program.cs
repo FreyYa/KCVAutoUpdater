@@ -24,8 +24,8 @@ namespace AutoUpdater
 					File.Delete(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd"));
 				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe")))
 					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe"));
-				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe.config")))
-					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe.config"));
+				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.config")))
+					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.config"));
 				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.VisualElementsManifest.xml")))
 					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.VisualElementsManifest.xml"));
 				if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
