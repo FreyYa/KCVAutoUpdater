@@ -174,9 +174,9 @@ namespace AutoUpdater
 								Console.WriteLine("");
 								if (!IsBattlePluginExist)
 								{
-									Console.WriteLine("기존 상태에 따라 전투 미리보기 플러그인 파일을 제거합니다.");
+									Console.WriteLine("기존 상태에 따라 전투 미리보기 플러그인 파일을 비활성화합니다.");
 									if (File.Exists(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll")))
-										File.Delete(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll"));
+										File.Move(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll"), Path.Combine(MainFolder, "Plugins", "BattlePreview.dll.old"));
 									Console.WriteLine("");
 								}
 								Console.WriteLine("업데이트를 종료합니다.");
