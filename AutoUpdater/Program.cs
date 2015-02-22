@@ -24,8 +24,8 @@ namespace AutoUpdater
 					File.Delete(Path.Combine(MainFolder, "ResetUpdaterSettings.cmd"));
 				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe")))
 					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe"));
-				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.config")))
-					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.config"));
+				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe.config")))
+					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.exe.config"));
 				if (File.Exists(Path.Combine(MainFolder, "KanColleViewer-Horizontal.VisualElementsManifest.xml")))
 					File.Delete(Path.Combine(MainFolder, "KanColleViewer-Horizontal.VisualElementsManifest.xml"));
 				if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
@@ -68,10 +68,7 @@ namespace AutoUpdater
 						shut.KCV();
 					}
 
-					string appname = string.Empty;
-
-					if (shut.processName == string.Empty) appname = "KanColleViewer.exe";
-					else appname = shut.processName + ".exe";
+					string appname = appname = "KanColleViewer.exe";
 
 					if (!Existargs)
 					{
