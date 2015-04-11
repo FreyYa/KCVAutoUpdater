@@ -5,6 +5,10 @@ namespace KCVKiller
 {
 	public class KCVKillers
 	{
+		public KCVKillers()
+		{
+
+		}
 		//public string processName { get; set; }
 		public bool IsKCVDead { get; set; }
 		private bool test { get; set; }

@@ -49,7 +49,7 @@ namespace AutoUpdater
 				{
 					Console.WriteLine("상위폴더에 AutoUpdater.exe가 감지되었습니다. 자가업데이트를 시행합니다.");
 					updatercore.Deflate.CopyFolder(MainFolder, up, true);
-					shut = null;
+					shut = new KCVKillers();
 					Process MyProcess = new Process();
 					MyProcess.StartInfo.FileName = "AutoUpdater.exe";
 					MyProcess.StartInfo.WorkingDirectory = up;
