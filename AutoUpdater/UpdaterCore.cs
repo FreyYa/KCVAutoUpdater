@@ -130,11 +130,6 @@ namespace AutoUpdater
 			#region 칸코레 뷰어가 있는경우
 			else if (Path.Combine(MainFolder, _str_File) != "NoFile")
 			{
-				bool IsBattlePluginExist;
-				if (File.Exists(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll")))
-					IsBattlePluginExist = true;
-				else IsBattlePluginExist = false;
-
 				FileVersionInfo NowVersion = FileVersionInfo.GetVersionInfo(Path.Combine(MainFolder, _str_File));
 				AppUpdater.LoadVersion(VerUri.AbsoluteUri);
 				var Checkbool = AppUpdater.IsOnlineVersionGreater(IsSelfUpdate, NowVersion.FileVersion);
@@ -172,17 +167,14 @@ namespace AutoUpdater
 								Deflate.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
 								Console.WriteLine("붙여넣기 완료");
 								Console.WriteLine("");
-								if (!IsBattlePluginExist)
+								Console.WriteLine("기존 전투 미리보기 플러그인 파일을 비활성화합니다.");
+								if (File.Exists(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll")))
 								{
-									Console.WriteLine("기존 상태에 따라 전투 미리보기 플러그인 파일을 비활성화합니다.");
-									if (File.Exists(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll")))
-									{
-										if (File.Exists(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll.old")))
-											File.Delete(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll.old"));
-										File.Move(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll"), Path.Combine(MainFolder, "Plugins", "BattlePreview.dll.old"));
-									}
-									Console.WriteLine("");
+									if (File.Exists(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll.old")))
+										File.Delete(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll.old"));
+									File.Move(Path.Combine(MainFolder, "Plugins", "BattlePreview.dll"), Path.Combine(MainFolder, "Plugins", "BattlePreview.dll.old"));
 								}
+								Console.WriteLine("");
 								Console.WriteLine("업데이트를 종료합니다.");
 								if (File.Exists(Path.Combine(MainFolder, _str_File)))
 								{
