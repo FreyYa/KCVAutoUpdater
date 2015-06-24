@@ -31,5 +31,14 @@ namespace AutoUpdater.Properties {
                 return ((string)(this["KCVUpdateUrl"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://raw.github.com/FreyYa/KCVKrTranslation/master/resources/TestVersion.xml")]
+        public string KCVTestUpdateUrl {
+            get {
+                return ((string)(this["KCVTestUpdateUrl"]));
+            }
+        }
     }
 }

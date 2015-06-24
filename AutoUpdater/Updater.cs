@@ -10,6 +10,18 @@ namespace AutoUpdater
 	public class Updater
 	{
 		private XDocument VersionXML;
+
+		#region singleton
+
+		private static Updater current = new Updater();
+
+		public static Updater Current
+		{
+			get { return current; }
+		}
+
+		#endregion
+
 		public bool LoadVersion(string UpdateURL)
 		{
 			try
@@ -45,6 +57,25 @@ namespace AutoUpdater
 				var AppVersion = Versions.Where(x => x.Element("Name").Value.Equals("Updater")).FirstOrDefault().Element(ElementName).Value;
 				return AppVersion;
 			}
+		}
+		public string GetOnlineNotificationURL()
+		{
+			if (VersionXML == null)
+				return "http://kcvkr.tistory.com/";
+
+			IEnumerable<XElement> Versions = VersionXML.Root.Descendants("Item");
+
+			string ElementName = "NoticeURL";
+			try
+			{
+				var AppNotice = Versions.Where(x => x.Element("Name").Value.Equals("App")).FirstOrDefault().Element(ElementName).Value;
+				return AppNotice;
+			}
+			catch
+			{
+				return "http://kcvkr.tistory.com/";
+			}
+
 		}
 		public bool IsOnlineVersionGreater(bool IsSelfUpdate, string LocalVersionString)
 		{

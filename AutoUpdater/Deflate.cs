@@ -5,6 +5,18 @@ namespace AutoUpdater
 {
 	public class Deflate
 	{
+		#region singleton
+
+		private static Deflate current = new Deflate();
+
+		public static Deflate Current
+		{
+			get { return current; }
+		}
+
+		#endregion
+
+
 		public void ExtractZip(string fileLocation, string ExtractLocation)
 		{
 			ZipFile.ExtractToDirectory(fileLocation, ExtractLocation);

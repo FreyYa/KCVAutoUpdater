@@ -48,7 +48,7 @@ namespace AutoUpdater
 				if (!Existargs && File.Exists(Path.Combine(up, "AutoUpdater.exe")))
 				{
 					Console.WriteLine("상위폴더에 AutoUpdater.exe가 감지되었습니다. 자가업데이트를 시행합니다.");
-					updatercore.Deflate.CopyFolder(MainFolder, up, true);
+					Deflate.Current.CopyFolder(MainFolder, up, true);
 					shut = new KCVKillers();
 					Process MyProcess = new Process();
 					MyProcess.StartInfo.FileName = "AutoUpdater.exe";
@@ -61,23 +61,30 @@ namespace AutoUpdater
 				else
 				{
 					Console.Title = "제독업무도 바빠! 자동 업데이트 프로그램";
-
+					int whileCount = 0;
 					while (!shut.IsKCVDead)
 					{
 						Thread.Sleep(2000);
 						shut.KCV();
+						whileCount++;
+						if (whileCount > 10) 
+						{ 
+							Console.WriteLine("칸코레 뷰어 프로세스가 정상적으로 종료되지않았습니다.");
+							Console.WriteLine("윈도우 작업 관리자를 통해 직접 칸코레 뷰어 프로세스를 종료해주시기 바랍니다.");
+							whileCount = 0;
+						}
+
 					}
 
-					string appname = appname = "KanColleViewer.exe";
 
 					if (!Existargs)
 					{
-						updatercore.Updater(true, MainFolder, "AutoUpdater.exe");
+						updatercore.Core(true, MainFolder, "AutoUpdater.exe");
 					}
 					if (updatercore.UpdateUpdater) return;
-					if (File.Exists(Path.Combine(MainFolder, appname)))
+					if (File.Exists(Path.Combine(MainFolder, "KanColleViewer.exe")))
 					{
-						updatercore.Updater(false, MainFolder, appname);
+						updatercore.Core(false, MainFolder, "KanColleViewer.exe");
 					}
 					else//파일이 없는경우
 					{
@@ -87,7 +94,7 @@ namespace AutoUpdater
 						Console.Write("최신버전을 새로 다운로드/설치하시겠습니까?(Y/N): ");
 						var t = System.Console.ReadLine();
 						if (t.Length > 0)
-							if (t.Length > 0 && t[0].ToString() == "y" || t[0].ToString() == "Y" || t[0].ToString() == "ㅛ") updatercore.Updater(false, MainFolder);
+							if (t.Length > 0 && t[0].ToString() == "y" || t[0].ToString() == "Y" || t[0].ToString() == "ㅛ") updatercore.Core(false, MainFolder);
 
 					}
 				}

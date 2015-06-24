@@ -8,20 +8,20 @@ namespace AutoUpdater
 	public class UpdaterCore
 	{
 		public bool UpdateUpdater;
-		Updater AppUpdater = new Updater();
-		public Deflate Deflate = new Deflate();
-		public void Updater(bool IsSelfUpdate, string MainFolder, string _str_File = "NoFile")
+		public void Core(bool IsSelfUpdate, string MainFolder, string _str_File = "NoFile")
 		{
 			Uri VerUri = new Uri(AppSettings.Default.KCVUpdateUrl);
-			AppUpdater.LoadVersion(VerUri.AbsoluteUri);
-			Uri FileUri = new Uri(AppUpdater.GetOnlineVersion(IsSelfUpdate, true));
+			//Uri VerUri = new Uri(AppSettings.Default.KCVTestUpdateUrl);
+
+			Updater.Current.LoadVersion(VerUri.AbsoluteUri);
+			Uri FileUri = new Uri(Updater.Current.GetOnlineVersion(IsSelfUpdate, true));
 
 			if (IsSelfUpdate)
 			{
 				FileVersionInfo NowVersion = FileVersionInfo.GetVersionInfo(Path.Combine(MainFolder, _str_File));
-				AppUpdater.LoadVersion(VerUri.AbsoluteUri);
-				var Checkbool = AppUpdater.IsOnlineVersionGreater(IsSelfUpdate, NowVersion.FileVersion);
-				var OnlineVersion = AppUpdater.GetOnlineVersion(IsSelfUpdate, false);
+				Updater.Current.LoadVersion(VerUri.AbsoluteUri);
+				var Checkbool = Updater.Current.IsOnlineVersionGreater(IsSelfUpdate, NowVersion.FileVersion);
+				var OnlineVersion = Updater.Current.GetOnlineVersion(IsSelfUpdate, false);
 
 				Console.WriteLine("현재 AutoUpdater 버전: " + NowVersion.FileVersion);
 				Console.WriteLine();
@@ -29,7 +29,7 @@ namespace AutoUpdater
 				Console.WriteLine();
 				int statusint = 0;
 				if (Checkbool)
-					statusint = AppUpdater.UpdateFile(IsSelfUpdate, FileUri.ToString(), NowVersion.FileVersion);
+					statusint = Updater.Current.UpdateFile(IsSelfUpdate, FileUri.ToString(), NowVersion.FileVersion);
 				string status;
 				if (statusint == 1) status = "성공";
 				else if (statusint == -1) status = "실패";
@@ -40,7 +40,7 @@ namespace AutoUpdater
 				{
 					if (File.Exists(Path.Combine(MainFolder, "tmp", "updater.zip")))
 					{
-						Deflate.ExtractZip(Path.Combine(MainFolder, "tmp", "updater.zip"), Path.Combine(MainFolder, "tmp"));
+						Deflate.Current.ExtractZip(Path.Combine(MainFolder, "tmp", "updater.zip"), Path.Combine(MainFolder, "tmp"));
 						Console.WriteLine("압축해제 완료");
 						Console.WriteLine("");
 						if (File.Exists(Path.Combine(MainFolder, "tmp", "updater.zip")))
@@ -70,7 +70,7 @@ namespace AutoUpdater
 
 				int statusint = 0;
 				if (Checkbool)
-					statusint = AppUpdater.UpdateFile(IsSelfUpdate, FileUri.ToString(), "Forced Upgrades");
+					statusint = Updater.Current.UpdateFile(IsSelfUpdate, FileUri.ToString(), "Forced Upgrades");
 				string status;
 				if (statusint == 1) status = "성공";
 				else if (statusint == -1) status = "실패";
@@ -81,7 +81,7 @@ namespace AutoUpdater
 				{
 					if (File.Exists(Path.Combine(MainFolder, "UpdateBin", "kcv.zip")))
 					{
-						Deflate.ExtractZip(Path.Combine(MainFolder, "UpdateBin", "kcv.zip"), Path.Combine(MainFolder, "UpdateBin"));
+						Deflate.Current.ExtractZip(Path.Combine(MainFolder, "UpdateBin", "kcv.zip"), Path.Combine(MainFolder, "UpdateBin"));
 						Console.WriteLine("압축해제 완료");
 						Console.WriteLine("");
 					}
@@ -102,21 +102,14 @@ namespace AutoUpdater
 					if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
 					{
 
-						Deflate.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
+						Deflate.Current.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
 						Console.WriteLine("붙여넣기 완료");
 						Console.WriteLine();
 
-						string Applocate = "KanColleViewer.exe";
-
 						Console.WriteLine();
+						Console.WriteLine("업데이트를 종료합니다.");
 
-						Process MyProcess = new Process();
-						MyProcess.StartInfo.FileName = "Updatelog.txt";
-						MyProcess.StartInfo.WorkingDirectory = MainFolder;
-						if (File.Exists(Path.Combine(MainFolder, "Updatelog.txt"))) MyProcess.Start();
-						MyProcess.StartInfo.FileName = Applocate;
-						MyProcess.Start();
-						MyProcess.Refresh();
+						this.Execute(MainFolder);
 					}
 				}
 				catch (Exception e)
@@ -131,9 +124,9 @@ namespace AutoUpdater
 			else if (Path.Combine(MainFolder, _str_File) != "NoFile")
 			{
 				FileVersionInfo NowVersion = FileVersionInfo.GetVersionInfo(Path.Combine(MainFolder, _str_File));
-				AppUpdater.LoadVersion(VerUri.AbsoluteUri);
-				var Checkbool = AppUpdater.IsOnlineVersionGreater(IsSelfUpdate, NowVersion.FileVersion);
-				var OnlineVersion = AppUpdater.GetOnlineVersion(IsSelfUpdate, false);
+				Updater.Current.LoadVersion(VerUri.AbsoluteUri);
+				var Checkbool = Updater.Current.IsOnlineVersionGreater(IsSelfUpdate, NowVersion.FileVersion);
+				var OnlineVersion = Updater.Current.GetOnlineVersion(IsSelfUpdate, false);
 
 
 				Console.WriteLine("현재 제독업무도 바빠! 버전: " + NowVersion.FileVersion);
@@ -143,7 +136,7 @@ namespace AutoUpdater
 
 				int statusint = 0;
 				if (Checkbool)
-					statusint = AppUpdater.UpdateFile(IsSelfUpdate, FileUri.ToString(), NowVersion.FileVersion);
+					statusint = Updater.Current.UpdateFile(IsSelfUpdate, FileUri.ToString(), NowVersion.FileVersion);
 				string status;
 				if (statusint == 1) status = "성공";
 				else if (statusint == -1) status = "실패";
@@ -154,7 +147,7 @@ namespace AutoUpdater
 				{
 					if (File.Exists(Path.Combine(MainFolder, "UpdateBin", "kcv.zip")))
 					{
-						Deflate.ExtractZip(Path.Combine(MainFolder, "UpdateBin", "kcv.zip"), Path.Combine(MainFolder, "UpdateBin"));
+						Deflate.Current.ExtractZip(Path.Combine(MainFolder, "UpdateBin", "kcv.zip"), Path.Combine(MainFolder, "UpdateBin"));
 						Console.WriteLine("압축해제 완료");
 						Console.WriteLine("");
 
@@ -164,7 +157,7 @@ namespace AutoUpdater
 						{
 							if (Directory.Exists(Path.Combine(MainFolder, "UpdateBin")))
 							{
-								Deflate.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
+								Deflate.Current.CopyFolder(Path.Combine(MainFolder, "UpdateBin"), MainFolder);
 								Console.WriteLine("붙여넣기 완료");
 								Console.WriteLine("");
 								Console.WriteLine("기존 전투 미리보기 플러그인 파일을 비활성화합니다.");
@@ -176,16 +169,7 @@ namespace AutoUpdater
 								}
 								Console.WriteLine("");
 								Console.WriteLine("업데이트를 종료합니다.");
-								if (File.Exists(Path.Combine(MainFolder, _str_File)))
-								{
-									Process MyProcess = new Process();
-									MyProcess.StartInfo.FileName = "Updatelog.txt";
-									MyProcess.StartInfo.WorkingDirectory = MainFolder;
-									if (File.Exists(Path.Combine(MainFolder, "Updatelog.txt"))) MyProcess.Start();
-									MyProcess.StartInfo.FileName = _str_File;
-									MyProcess.Start();
-									MyProcess.Refresh();
-								}
+								if (File.Exists(Path.Combine(MainFolder, _str_File))) this.Execute(MainFolder);
 
 							}
 						}
@@ -198,16 +182,7 @@ namespace AutoUpdater
 					else
 					{
 						Console.WriteLine("업데이트를 종료합니다.");
-						if (File.Exists(Path.Combine(MainFolder, _str_File)))
-						{
-							Process MyProcess = new Process();
-							MyProcess.StartInfo.FileName = "Updatelog.txt";
-							MyProcess.StartInfo.WorkingDirectory = MainFolder;
-							if (File.Exists(Path.Combine(MainFolder, "Updatelog.txt"))) MyProcess.Start();
-							MyProcess.StartInfo.FileName = _str_File;
-							MyProcess.Start();
-							MyProcess.Refresh();
-						}
+						if (File.Exists(Path.Combine(MainFolder, _str_File))) this.Execute(MainFolder);
 					}
 				}
 				catch (Exception e)
@@ -235,6 +210,25 @@ namespace AutoUpdater
 			}
 
 			return str;
+		}
+		/// <summary>
+		/// 칸코레 뷰어의 가장 최신의 패치로그를 띄우고 칸코레 뷰어를 실행합니다.
+		/// </summary>
+		/// <param name="MainFolder"></param>
+		private void Execute(string MainFolder)
+		{
+			Process MyProcess = new Process();
+			var noti = Updater.Current.GetOnlineNotificationURL();
+
+			MyProcess.StartInfo.FileName = noti;
+			MyProcess.Start();
+			MyProcess.Refresh();
+
+
+			MyProcess.StartInfo.WorkingDirectory = MainFolder;
+			MyProcess.StartInfo.FileName = "KanColleViewer.exe";
+			MyProcess.Start();
+			MyProcess.Refresh();
 		}
 	}
 }
